@@ -1,14 +1,12 @@
 var http = require('http');
-var dateModule = require(".\\hellomodule.js");
-var url = require('url');
+var fs = require('fs');
 
-function hello (req, res) {
-  res.writeHead(500, {'Content-Type': 'text/html'});
-  res.write("The date and time are currently: " + dateModule.myDateTime());
-  res.write(req.url);
-  var q = url.parse(req.url, true).query;
-  var txt = q.year + " " + q.month;
-  res.end(txt);
+function filesystem (req, res) {
+  fs.readFile('sample.html', function(err, data) {
+    res.writeHead(200, {'Content-Type': 'text/html'});
+     res.write(data);
+    //  res.write(err);
+    return res.end();
+  });
 }
-
-http.createServer(hello).listen(8080);
+http.createServer(filesystem).listen(8080);
