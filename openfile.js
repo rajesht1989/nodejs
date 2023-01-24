@@ -4,7 +4,7 @@ var fs = require('fs')
 function filesystem (req, res) {
   fs.open('openfile.txt', 'w', function (err, file) {
     if (err) throw err
-    console.log('Saved!')
+    console.log('Opened Status!' + file)
     return res.end()
   });
 }
