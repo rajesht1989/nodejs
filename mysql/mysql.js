@@ -1,20 +1,19 @@
 var mysql = require('mysql');
 
 var con = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "1234"
+    host: "localhost",
+    user: "root",
+    password: "1234",
+    database: "hello"
 });
 
-con.connect(function(err) {
-  if (err) throw err;
-  console.log("Connected!");
-  con.query("use hello;", function (err, result) {
+con.connect(function (err) {
     if (err) throw err;
+    console.log("Connected!");
     con.query("select * from users;", function (err, result) {
         if (err) throw err;
-        console.log("Result: " + result[0].name);
-      });
-  });
- 
+        result.forEach(element => {
+             console.log("Result: " + element.id, element.name, element.city);
+        });
+    });
 });
