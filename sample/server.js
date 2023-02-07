@@ -22,7 +22,7 @@ const path = require('path');
 var pg = require("pg");
 
 const pool = new pg.Pool({
-    user: 'postgres',
+    user: 'rajesh',
     host: 'localhost',
     database: 'postgres',
     password: '12345',
@@ -58,7 +58,7 @@ app.post('/submit', (req, res) => {
     if (error) {
       throw error
     }
-    response.status(201).send(`User added with ID: ${results.rows[0]}`)
+    response.status(201).send(`User added`)
   })
   res.send('Thanks for your message!');
 });
