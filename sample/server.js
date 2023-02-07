@@ -18,6 +18,17 @@
 const express = require('express');
 const path = require('path');
 
+
+var pg = require("pg");
+
+const pool = new pg.Pool({
+    user: 'postgres',
+    host: 'localhost',
+    database: 'postgres',
+    password: '12345',
+    port: 5432,
+    });
+
 const app = express();
 
 // [START enable_parser]
@@ -37,10 +48,18 @@ app.get('/submit', (req, res) => {
 
 // [START add_post_handler]
 app.post('/submit', (req, res) => {
+  var name = req.body.name;
+  var message = req.body.message;
   console.log({
-    name: req.body.name,
-    message: req.body.message,
+    name: name,
+    message: message,
   });
+  pool.query('INSERT INTO users (name, message) VALUES ($1, $2) RETURNING *', [name, message], (error, results) => {
+    if (error) {
+      throw error
+    }
+    response.status(201).send(`User added with ID: ${results.rows[0]}`)
+  })
   res.send('Thanks for your message!');
 });
 // [END add_post_handler]
